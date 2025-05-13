@@ -77,12 +77,12 @@ README.md
 requirements.txt
 
 ## How to Run
-
 ```bash
 git clone https://github.com/yourusername/multiome-ml-pbmc.git
 cd multiome-ml-pbmc
 pip install -r requirements.txt
-jupyter notebook notebooks/rna_analysis.ipynb ```
+jupyter notebook notebooks/rna_analysis.ipynb
+```
 
 
 ## Future Work
