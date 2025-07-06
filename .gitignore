@@ -1,0 +1,13 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+.DS_Store
+
+data/gencode.v43.annotation.gtf
+data/10k_PBMC_Multiome_nextgem_Chromium_X_atac_fragments.tsv.gz
+data/gwas_catalog_v1.0-associations_e114_r2025-06-10.tsv
+data/atac_subset.h5ad
+data/10k_PBMC_Multiome_nextgem_Chromium_X_filtered_feature_bc_matrix.h5
+results/files/gene_activity.h5ad
+results/files/atac_matrix.h5ad
+results/files/X_combined_with_labels.csv
+results/files/X_combined.npy
