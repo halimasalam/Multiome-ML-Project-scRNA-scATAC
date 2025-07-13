@@ -4,7 +4,7 @@
 
 This project combines **single-cell transcriptomics (scRNA-seq)** and **chromatin accessibility (scATAC-seq)** to predict immune cell types using **machine learning**.
 
-Using multiome PBMC data from 10x Genomics, I trained classifiers to distinguish T cells, B cells, monocytes, NK cells, and others — based on both gene expression and chromatin accessibility.
+Using multiome PBMC data from 10x Genomics, I trained classifiers to distinguish T cells, B cells, monocytes, NK cells, and others, based on both gene expression and chromatin accessibility.
 
 ---
 
