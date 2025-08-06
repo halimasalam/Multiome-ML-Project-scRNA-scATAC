@@ -13,6 +13,8 @@ Using multiome PBMC data from 10x Genomics, I trained classifiers to distinguish
 - Classify immune cell types from single-cell omics data using ML.
 - Compare transcriptomic vs epigenomic features for prediction.
 - Integrate scRNA and scATAC data to explore regulatory biology.
+- Explore enrichment of Alzheimer’s Disease genetic risk with top classifier genes.
+
 
 ---
 
@@ -65,28 +67,31 @@ Using multiome PBMC data from 10x Genomics, I trained classifiers to distinguish
     - HCK, ARHGAP24 (Monocyte-related)
     - LINC02446 (potential regulatory non-coding RNA present in both RNA and ATAC).
 
+### Alzheimer’s GWAS gene mapping
+
+
 ## Step-by-Step Summary of Notebooks
 
 ### Step 1: 01_preprocessing_rna.ipynb - Load & Filter Raw scRNA-seq Data
 - Loaded the raw .h5 file from 10x Genomics.
 - Filtered out low-quality cells (UMIs > 1000).
 - Randomly sampled 4000 high-quality cells.
-Saved as filtered_rna_subset.h5ad
+- **Saved as filtered_rna_subset.h5ad**
 
 ### Step 2: 02_rna_clustering_annotation.ipynb - Preprocess & Cluster scRNA-seq
 - Normalized data, log-transformed, and found highly variable genes.
 - Ran PCA, UMAP, and Leiden clustering.
 - Identified top marker genes per cluster.
 - Annotated clusters manually with known cell types (e.g. T cells, B cells).
-Saved annotated RNA data as rna_annotated.h5ad
-Plots saved to /results/plots
+- **Saved annotated RNA data as rna_annotated.h5ad**
+- **Plots saved to /results/plots**
 
 ### Step 3: 03_build_atac_matrix.ipynb - Process scATAC-seq Data
 - Loaded fragment and peak BED files.
 - Intersected fragments with peaks using PyRanges.
 - Created a sparse matrix of cells × peaks.
 - Built atac_subset.h5ad storing chromatin accessibility.
-Saved ATAC data as atac_subset.h5ad
+- **Saved ATAC data as atac_subset.h5ad**
 
 ### Step 4: 04_integration_gene_activity.ipynb - Link Peaks to Genes (ATAC → Gene Activity)
 - Used GTF to define gene bodies ±2kb (TSS vicinity).
@@ -94,15 +99,15 @@ Saved ATAC data as atac_subset.h5ad
 - Summed ATAC signals for each gene across its peaks.
 - Created a new AnnData: gene activity matrix (cells × genes).
 - Visulaize comparison of RNA vs Gene Activity
-Saved as gene_activity.h5ad
-Plots saved to /results/plots
+- **Saved as gene_activity.h5ad**
+- **Plots saved to /results/plots**
 
 ### Step 5: 05_machine_learning.ipynb - Prepare ML Input
 - Matched cells and genes in RNA and gene activity datasets.
 - Scaled the data using StandardScaler.
 - Concatenated RNA and ATAC features → [RNA | ATAC] for each gene.
 - Extracted cell type labels from RNA metadata.
-Saved final ML-ready data:
+- **Saved final ML-ready data:**
 - X_combined.npy (features)
 - y_labels.npy (cell types)
 
@@ -118,29 +123,43 @@ Saved final ML-ready data:
 - Projected ML predictions and confidence scores onto UMAP.
 - Generated a confusion matrix using ground-truth annotations.
 - Identified and saved misclassified cells for further inspection.
-Saved outputs:
+- **Saved outputs:**
 - top_rna_genes.csv, top_atac_genes.csv (Top features)
 - umap_predictions.png 
 - misclassifications.csv (Misclassified cells)
 - confusion_matrix.png
 
+### Step 8: 07_AD_GWAS.ipynb – Alzheimer’s GWAS Integration
+- Queried GWAS Catalog and map Alzheimer's related genes
+- Intersect GWAS genes with top features from the ML classifier
+- Visualize overlapping gene expression on UMAP per cell type
+- **Saved outputs:**
+- Plots of 14 overlapping genes and their expression patterns
+- Table summarizing gene–cell type expression
+
 ---
 
 ##  Results
+### ML
 - Multimodal classifier (RNA + ATAC gene activity) using XGBoost achieved ~92% accuracy in predicting annotated cell types from scRNA-seq.
 - Top RNA genes included:
-    - ZEB2, PAX5, BANK1, MS4A1 (B cells)
-    - LYZ, VCAN, CDKN1C (Monocytes)
-    - GNLY, GZMB, ZEB2 (Cytotoxic T/NK)
+    - **ZEB2**, **PAX5**, **BANK1**, **MS4A1** (B cells)
+    - **LYZ**, **VCAN**, **CDKN1C** (Monocytes)
+    - **GNLY**, **GZMB**, **ZEB2** (Cytotoxic T/NK)
 - Top ATAC features (gene activity) included:
-    - KLRG1, IL2RB (T/NK cell function)
-    - HCK, ARHGAP24 (Monocyte-related)
-    - LINC02446 (potential regulatory non-coding RNA present in both RNA and ATAC).
+    - **KLRG1**, **IL2RB** (T/NK cell function)
+    - **HCK**, **ARHGAP24** (Monocyte-related)
+    - **LINC02446** (potential regulatory non-coding RNA present in both RNA and ATAC).
 - Confusion matrix showed high agreement between true and predicted labels across most immune cell types, with a few misclassifications likely reflecting:
     - Transitional or ambiguous states (e.g., T/NK overlap)
     - Cells with low-confidence scores or weaker chromatin signals
 - Prediction confidence scores were generally high (median >0.9), indicating strong classifier certainty.
-- Misclassified cells were a minority and are candidates for further biological inspection 
+- Misclassified cells were a minority and are candidates for further biological inspection
+### GWAS
+- Intersection of top classifier genes with Alzheimer’s GWAS hits yielded 14 genes, including **BANK1**, **MEF2C**, **ANK3**, and **TCF7L2**.
+- UMAP visualization shows MEF2C is highly expressed in monocytes, dendritic cells, and pDCs, while BANK1 localizes to B cells, suggesting distinct immune subsets link to AD risk.
+- A summary table annotates each gene’s enriched expression cell type and potential relevance.
+
 
 ![umap_rna](results/plots/umap_final_cell_type_annotations.png)  
 ![confusion_matrix](results/plots/confusion_matrix.png)

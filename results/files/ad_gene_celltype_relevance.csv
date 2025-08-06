@@ -1,0 +1,13 @@
+Gene,High Expression Seen In,Potential Relevance
+BANK1,B cells,"Known B cell regulator, may reflect immune dysregulation relevant to AD"
+MEF2C,"B cells, Monocytes, Dendritic cells, pDCs","Key AD GWAS gene, expressed in myeloid lineage, implicating innate immunity"
+ANK3,"Naive T, Monocyte/Neutrophils, B cells","Ion channel anchoring, may affect neuro-immune communication"
+TCF4,"pDCs/DC subtype, B cells",Neurodevelopment regulator
+LINGO2,NK cells,"Innate immunity / neuronal interplay, potential role in synaptic pruning"
+TCF7L2,Dendritic cells (and some monocytes),"Key TF in Wnt signaling, immune regulation"
+RAB31,"Monocytes, Dendritic cells, pDCs",Vesicular trafficking in antigen presentation
+TSHZ2,Naive T cells,T-cell identity
+ARHGAP24,"B cells, Monocytes",Regulates cytoskeleton/activation responses
+ROBO1,Weak in memory T cells,"Guidance receptor, may affect immune-synapse signaling"
+LEF1‑AS1,Diffuse / low,An antisense transcript
+CUX2,pDCs/DC subtype,TF linked to neuronal/immune transcription pathways
